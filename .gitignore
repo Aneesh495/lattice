@@ -1,0 +1,37 @@
+# Build artifacts and compiled objects
+*.o
+*.a
+*.so
+*.dylib
+*.dll
+*.im
+build/
+bin/lib/
+lib/
+
+# Smalltalk runtime dumps and core files
+*.core
+core
+*.trace
+*.log
+
+# Storage segment data
+data/
+*.wal
+*.snap
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+*.egg-info/
+dist/
+
+# OS artifacts
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
