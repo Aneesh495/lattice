@@ -13,8 +13,15 @@ FileStream fileIn: 'src/Kernel/ByteBuffer.st'.
 FileStream fileIn: 'src/Kernel/PriorityQueue.st'.
 FileStream fileIn: 'src/Kernel/Mailbox.st'.
 
+"Load Wire Subsystem"
+FileStream fileIn: 'src/Wire/CRC32C.st'.
+FileStream fileIn: 'src/Wire/WireFrame.st'.
+FileStream fileIn: 'src/Wire/WireSerializer.st'.
+
 "Load Tests"
 FileStream fileIn: 'tests/Unit/KernelTest.st'.
+FileStream fileIn: 'tests/Unit/WireTest.st'.
 
-"Execute Kernel Tests"
+"Execute Tests"
 KernelTest runAll.
+WireTest runAll.

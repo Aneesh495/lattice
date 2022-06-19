@@ -57,6 +57,17 @@ Object subclass: LatticeTestCase [
         ].
     ]
 
+    deny: actual equals: expected [
+        (actual = expected) ifFalse: [
+            passedCount := passedCount + 1.
+        ] ifTrue: [
+            failedCount := failedCount + 1.
+            Transcript show: '  [FAIL] '; show: currentTestName;
+                       show: ' expected values to differ, but both equal: ';
+                       show: actual printString; cr.
+        ].
+    ]
+
     deny: aBoolean [
         self assert: aBoolean not message: 'Denial assertion failed'
     ]
