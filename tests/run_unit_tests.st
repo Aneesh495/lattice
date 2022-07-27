@@ -26,14 +26,24 @@ FileStream fileIn: 'src/Cluster/RaftLog.st'.
 FileStream fileIn: 'src/Cluster/RaftServer.st'.
 FileStream fileIn: 'src/Cluster/RaftReplication.st'.
 
+"Load Actor Subsystem"
+FileStream fileIn: 'src/Actor/GrainId.st'.
+FileStream fileIn: 'src/Actor/GrainContext.st'.
+FileStream fileIn: 'src/Actor/GrainManager.st'.
+FileStream fileIn: 'src/Actor/GrainDispatcher.st'.
+FileStream fileIn: 'src/Actor/GrainTimer.st'.
+FileStream fileIn: 'src/Actor/GrainRef.st'.
+
 "Load Tests"
 FileStream fileIn: 'tests/Unit/KernelTest.st'.
 FileStream fileIn: 'tests/Unit/WireTest.st'.
 FileStream fileIn: 'tests/Unit/ClusterTest.st'.
 FileStream fileIn: 'tests/Unit/RaftTest.st'.
+FileStream fileIn: 'tests/Unit/ActorTest.st'.
 
 "Execute Tests"
 KernelTest runAll.
 WireTest runAll.
 ClusterTest runAll.
 RaftTest runAll.
+ActorTest runAll.
