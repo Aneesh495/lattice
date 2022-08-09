@@ -34,12 +34,20 @@ FileStream fileIn: 'src/Actor/GrainDispatcher.st'.
 FileStream fileIn: 'src/Actor/GrainTimer.st'.
 FileStream fileIn: 'src/Actor/GrainRef.st'.
 
+"Load Storage Subsystem"
+FileStream fileIn: 'src/Storage/WALSegment.st'.
+FileStream fileIn: 'src/Storage/BitemporalEvent.st'.
+FileStream fileIn: 'src/Storage/BitemporalIndex.st'.
+FileStream fileIn: 'src/Storage/SnapshotManager.st'.
+FileStream fileIn: 'src/Storage/LatticeStore.st'.
+
 "Load Tests"
 FileStream fileIn: 'tests/Unit/KernelTest.st'.
 FileStream fileIn: 'tests/Unit/WireTest.st'.
 FileStream fileIn: 'tests/Unit/ClusterTest.st'.
 FileStream fileIn: 'tests/Unit/RaftTest.st'.
 FileStream fileIn: 'tests/Unit/ActorTest.st'.
+FileStream fileIn: 'tests/Unit/StorageTest.st'.
 
 "Execute Tests"
 KernelTest runAll.
@@ -47,3 +55,4 @@ WireTest runAll.
 ClusterTest runAll.
 RaftTest runAll.
 ActorTest runAll.
+StorageTest runAll.
