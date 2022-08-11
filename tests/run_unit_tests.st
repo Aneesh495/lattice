@@ -41,6 +41,12 @@ FileStream fileIn: 'src/Storage/BitemporalIndex.st'.
 FileStream fileIn: 'src/Storage/SnapshotManager.st'.
 FileStream fileIn: 'src/Storage/LatticeStore.st'.
 
+"Load Stream Subsystem"
+FileStream fileIn: 'src/Stream/ReactiveStream.st'.
+FileStream fileIn: 'src/Stream/DemandController.st'.
+FileStream fileIn: 'src/Stream/WindowOperator.st'.
+FileStream fileIn: 'src/Stream/WatermarkManager.st'.
+
 "Load Tests"
 FileStream fileIn: 'tests/Unit/KernelTest.st'.
 FileStream fileIn: 'tests/Unit/WireTest.st'.
@@ -48,6 +54,7 @@ FileStream fileIn: 'tests/Unit/ClusterTest.st'.
 FileStream fileIn: 'tests/Unit/RaftTest.st'.
 FileStream fileIn: 'tests/Unit/ActorTest.st'.
 FileStream fileIn: 'tests/Unit/StorageTest.st'.
+FileStream fileIn: 'tests/Unit/StreamTest.st'.
 
 "Execute Tests"
 KernelTest runAll.
@@ -56,3 +63,4 @@ ClusterTest runAll.
 RaftTest runAll.
 ActorTest runAll.
 StorageTest runAll.
+StreamTest runAll.
