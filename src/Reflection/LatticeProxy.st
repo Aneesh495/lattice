@@ -4,7 +4,7 @@
  All code conforms strictly to ANSI Smalltalk semantics.
 ============================================================================="
 
-nil subclass: LatticeProxy [
+Object subclass: LatticeProxy [
     | target beforeInterceptors afterInterceptors callCount failureCount maxFailures isOpen resetTimeoutMs lastFailureMs |
 
     LatticeProxy class >> on: aTarget [

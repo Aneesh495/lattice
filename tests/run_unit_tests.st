@@ -47,6 +47,10 @@ FileStream fileIn: 'src/Stream/DemandController.st'.
 FileStream fileIn: 'src/Stream/WindowOperator.st'.
 FileStream fileIn: 'src/Stream/WatermarkManager.st'.
 
+"Load Reflection Subsystem"
+FileStream fileIn: 'src/Reflection/LatticeProxy.st'.
+FileStream fileIn: 'src/Reflection/SchemaMigration.st'.
+
 "Load Tests"
 FileStream fileIn: 'tests/Unit/KernelTest.st'.
 FileStream fileIn: 'tests/Unit/WireTest.st'.
@@ -55,6 +59,7 @@ FileStream fileIn: 'tests/Unit/RaftTest.st'.
 FileStream fileIn: 'tests/Unit/ActorTest.st'.
 FileStream fileIn: 'tests/Unit/StorageTest.st'.
 FileStream fileIn: 'tests/Unit/StreamTest.st'.
+FileStream fileIn: 'tests/Unit/ReflectionTest.st'.
 
 "Execute Tests"
 KernelTest runAll.
@@ -64,3 +69,4 @@ RaftTest runAll.
 ActorTest runAll.
 StorageTest runAll.
 StreamTest runAll.
+ReflectionTest runAll.
