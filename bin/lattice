@@ -1,0 +1,52 @@
+#!/usr/bin/env bash
+#
+# lattice: Unified CLI entrypoint for Lattice Distributed Virtual Actor Mesh
+#
+
+set -e
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+cd "$SCRIPT_DIR"
+
+COMMAND="${1:-help}"
+shift || true
+
+case "$COMMAND" in
+    version)
+        gst -q -f - version << 'EOF'
+FileStream fileIn: 'src/Gateway/LatticeCLI.st'.
+LatticeCLI runWithArgs: #('version').
+EOF
+        ;;
+    help)
+        gst -q -f - help << 'EOF'
+FileStream fileIn: 'src/Gateway/LatticeCLI.st'.
+LatticeCLI runWithArgs: #('help').
+EOF
+        ;;
+    status)
+        gst -q -f - status << 'EOF'
+FileStream fileIn: 'src/Cluster/HashRing.st'.
+FileStream fileIn: 'src/Cluster/SWIMMembership.st'.
+FileStream fileIn: 'src/Cluster/ClusterNode.st'.
+FileStream fileIn: 'src/Gateway/LatticeCLI.st'.
+LatticeCLI runWithArgs: #('status').
+EOF
+        ;;
+    test)
+        echo "Running Lattice Automated Verification Suite..."
+        make test
+        ;;
+    bench)
+        make bench
+        ;;
+    repl)
+        echo "Starting Lattice Interactive Smalltalk REPL..."
+        gst tests/run_unit_tests.st -
+        ;;
+    *)
+        echo "Unknown command: $COMMAND"
+        echo "Run './bin/lattice help' for available commands."
+        exit 1
+        ;;
+esac
