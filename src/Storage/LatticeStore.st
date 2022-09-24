@@ -12,14 +12,31 @@ Object subclass: LatticeStore [
     ]
 
     initializeDirectory: aPath [
+        | dir |
         dataDirectory := aPath asString.
-        Directory create: dataDirectory.
+        dir := File name: dataDirectory.
+        dir exists ifFalse: [
+            [ Directory create: dataDirectory ] on: Error do: [ :ex | nil ].
+        ].
         bitemporalIndex := BitemporalIndex new.
         snapshotManager := SnapshotManager new.
         monotonicSeq := 0.
         lock := Semaphore forMutualExclusion.
 
         currentWal := WALSegment openPath: (dataDirectory , '/segment-0001.wal') segmentId: 1.
+
+        "Replay recovered records into index and sequence tracker"
+        currentWal records do: [ :rec |
+            rec recordType = 1 ifTrue: [
+                | buf evt |
+                buf := ByteBuffer wrap: rec payload.
+                evt := [ BitemporalEvent decodeFrom: buf ] on: Error do: [ :ex | nil ].
+                evt ifNotNil: [
+                    bitemporalIndex indexEvent: evt.
+                    monotonicSeq := monotonicSeq max: evt sequenceNumber.
+                ].
+            ].
+        ].
         ^ self
     ]
 
