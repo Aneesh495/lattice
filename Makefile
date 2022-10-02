@@ -63,7 +63,7 @@ test-stress:
 
 test-python:
 	@echo "Running Lattice Python Client Test Suite..."
-	@python3 -m unittest discover -s python/tests
+	@PYTHONPATH=python python3 -m unittest discover -s python/tests
 
 test: test-native test-unit test-integration test-stress test-python
 

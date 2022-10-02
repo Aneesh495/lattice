@@ -130,12 +130,12 @@ Object subclass: WALSegment [
         ].
 
         "Open append write stream"
-        fileStream := FileStream open: filePath mode: FileStream write.
         exists ifFalse: [
+            fileStream := FileStream open: filePath mode: FileStream write.
             fileStream nextPutAll: (self class magic asString).
             fileStream flush.
         ] ifTrue: [
-            fileStream setToEnd.
+            fileStream := FileStream open: filePath mode: FileStream append.
         ].
     ]
 

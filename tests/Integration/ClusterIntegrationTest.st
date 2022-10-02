@@ -39,6 +39,12 @@ LatticeGrain subclass: PersistentUserGrain [
 
 LatticeTestCase subclass: ClusterIntegrationTest [
 
+    setUp [
+        | f |
+        f := File name: '/tmp/lattice_integ_store/segment-0001.wal'.
+        f exists ifTrue: [ [ f remove ] on: Error do: [ :ex | nil ] ].
+    ]
+
     testMultiNodeGossipAndFailoverRebalancing [
         | n1 n2 n3 coord ring target1 target2 |
         n1 := ClusterNode id: 'cluster-node-1' host: '127.0.0.1' port: 8001.
