@@ -12,7 +12,7 @@ Object subclass: BloomFilter [
         "Calculate optimal m = -(n * ln(p)) / (ln(2)^2)"
         "Calculate optimal k = (m / n) * ln(2)"
         m := ((n negated * (p ln)) / (0.69314718056 * 0.69314718056)) rounded max: 64.
-        k := (((m asFloat / n asFloat) * 0.69314718056) rounded) max: 1 min: 16.
+        k := (((m asFloat / n asFloat) * 0.69314718056) rounded max: 1) min: 16.
         ^ (self new) initializeBits: m hashCount: k
     ]
 

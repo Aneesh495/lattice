@@ -7,6 +7,7 @@
 *.im
 build/
 bin/lib/
+bin/test_native
 lib/
 
 # Smalltalk runtime dumps and core files

@@ -12,6 +12,7 @@ FileStream fileIn: 'src/Kernel/Capability.st'.
 FileStream fileIn: 'src/Kernel/ByteBuffer.st'.
 FileStream fileIn: 'src/Kernel/PriorityQueue.st'.
 FileStream fileIn: 'src/Kernel/Mailbox.st'.
+FileStream fileIn: 'src/Kernel/MerkleTrie.st'.
 
 "Load Wire Subsystem"
 FileStream fileIn: 'src/Wire/CRC32C.st'.
@@ -33,6 +34,8 @@ FileStream fileIn: 'src/Actor/GrainManager.st'.
 FileStream fileIn: 'src/Actor/GrainDispatcher.st'.
 FileStream fileIn: 'src/Actor/GrainTimer.st'.
 FileStream fileIn: 'src/Actor/GrainRef.st'.
+FileStream fileIn: 'src/Actor/TransactionCoordinator.st'.
+FileStream fileIn: 'src/Actor/GraphActor.st'.
 
 "Load Storage Subsystem"
 FileStream fileIn: 'src/Storage/WALSegment.st'.
@@ -40,12 +43,16 @@ FileStream fileIn: 'src/Storage/BitemporalEvent.st'.
 FileStream fileIn: 'src/Storage/BitemporalIndex.st'.
 FileStream fileIn: 'src/Storage/SnapshotManager.st'.
 FileStream fileIn: 'src/Storage/LatticeStore.st'.
+FileStream fileIn: 'src/Storage/BloomFilter.st'.
+FileStream fileIn: 'src/Storage/BPlusTree.st'.
+FileStream fileIn: 'src/Storage/DistributedCache.st'.
 
 "Load Stream Subsystem"
 FileStream fileIn: 'src/Stream/ReactiveStream.st'.
 FileStream fileIn: 'src/Stream/DemandController.st'.
 FileStream fileIn: 'src/Stream/WindowOperator.st'.
 FileStream fileIn: 'src/Stream/WatermarkManager.st'.
+FileStream fileIn: 'src/Stream/ComplexEventProcessing.st'.
 
 "Load Reflection Subsystem"
 FileStream fileIn: 'src/Reflection/LatticeProxy.st'.
@@ -60,6 +67,7 @@ FileStream fileIn: 'tests/Unit/ActorTest.st'.
 FileStream fileIn: 'tests/Unit/StorageTest.st'.
 FileStream fileIn: 'tests/Unit/StreamTest.st'.
 FileStream fileIn: 'tests/Unit/ReflectionTest.st'.
+FileStream fileIn: 'tests/Unit/AdvancedTest.st'.
 
 "Execute Tests"
 KernelTest runAll.
@@ -70,3 +78,4 @@ ActorTest runAll.
 StorageTest runAll.
 StreamTest runAll.
 ReflectionTest runAll.
+AdvancedTest runAll.

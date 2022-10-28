@@ -1,11 +1,11 @@
 "=============================================================================
- BPlusTree: High-Order B+ Tree for Secondary Indexing and Range Scans
+ Lattice BPlusTree: High-Order B+ Tree for Secondary Indexing and Range Scans
  Part of the Lattice Distributed Virtual Actor Mesh.
  All code conforms strictly to ANSI Smalltalk semantics.
 ============================================================================="
 
 Object subclass: BPlusTreeNode [
-    | keys children isLeaf nextLeaf prevLeaf |
+    | keys children isLeaf nextLeaf prevLeaf parent |
 
     BPlusTreeNode class >> newLeaf [
         ^ (self new) initializeLeaf: true
@@ -21,6 +21,7 @@ Object subclass: BPlusTreeNode [
         children := OrderedCollection new.
         nextLeaf := nil.
         prevLeaf := nil.
+        parent := nil.
         ^ self
     ]
 
@@ -53,6 +54,15 @@ Object subclass: BPlusTreeNode [
         prevLeaf := aNode.
         ^ self
     ]
+
+    parent [
+        ^ parent
+    ]
+
+    parent: aNode [
+        parent := aNode.
+        ^ self
+    ]
 ]
 
 Object subclass: BPlusTree [
@@ -74,14 +84,20 @@ Object subclass: BPlusTree [
 
     searchKey: aKey inNode: aNode [
         | idx |
-        idx := 1.
-        [ idx <= aNode keys size and: [ (aNode keys at: idx) <= aKey ] ] whileTrue: [
-            (aNode isLeaf and: [ (aNode keys at: idx) = aKey ]) ifTrue: [
-                ^ aNode children at: idx
+        aNode isLeaf ifTrue: [
+            idx := 1.
+            [ idx <= aNode keys size ] whileTrue: [
+                (aNode keys at: idx) = aKey ifTrue: [
+                    ^ aNode children at: idx
+                ].
+                idx := idx + 1.
             ].
+            ^ nil
+        ].
+        idx := 1.
+        [ idx <= aNode keys size and: [ aKey >= (aNode keys at: idx) ] ] whileTrue: [
             idx := idx + 1.
         ].
-        aNode isLeaf ifTrue: [ ^ nil ].
         ^ self searchKey: aKey inNode: (aNode children at: idx)
     ]
 
@@ -121,7 +137,7 @@ Object subclass: BPlusTree [
     ]
 
     splitLeaf: aLeaf [
-        | mid newLeaf splitKey parent |
+        | mid newLeaf splitKey p idx |
         mid := (aLeaf keys size // 2) + 1.
         newLeaf := BPlusTreeNode newLeaf.
 
@@ -136,13 +152,62 @@ Object subclass: BPlusTree [
         aLeaf nextLeaf: newLeaf.
 
         splitKey := newLeaf keys first.
+        p := aLeaf parent.
 
-        aLeaf == root ifTrue: [
-            parent := BPlusTreeNode newInternal.
-            parent keys add: splitKey.
-            parent children add: aLeaf.
-            parent children add: newLeaf.
-            root := parent.
+        p isNil ifTrue: [
+            p := BPlusTreeNode newInternal.
+            p keys add: splitKey.
+            p children add: aLeaf.
+            p children add: newLeaf.
+            aLeaf parent: p.
+            newLeaf parent: p.
+            root := p.
+        ] ifFalse: [
+            newLeaf parent: p.
+            idx := p children indexOf: aLeaf.
+            p keys add: splitKey beforeIndex: idx.
+            p children add: newLeaf beforeIndex: (idx + 1).
+            p keys size >= order ifTrue: [
+                self splitInternal: p.
+            ].
+        ].
+    ]
+
+    splitInternal: aNode [
+        | mid upKey newNode p idx |
+        mid := (aNode keys size // 2) + 1.
+        upKey := aNode keys at: mid.
+        newNode := BPlusTreeNode newInternal.
+
+        [ aNode keys size > mid ] whileTrue: [
+            newNode keys addFirst: aNode keys removeLast.
+        ].
+        aNode keys removeLast.
+
+        [ aNode children size > mid ] whileTrue: [
+            | child |
+            child := aNode children removeLast.
+            child parent: newNode.
+            newNode children addFirst: child.
+        ].
+
+        p := aNode parent.
+        p isNil ifTrue: [
+            p := BPlusTreeNode newInternal.
+            p keys add: upKey.
+            p children add: aNode.
+            p children add: newNode.
+            aNode parent: p.
+            newNode parent: p.
+            root := p.
+        ] ifFalse: [
+            newNode parent: p.
+            idx := p children indexOf: aNode.
+            p keys add: upKey beforeIndex: idx.
+            p children add: newNode beforeIndex: (idx + 1).
+            p keys size >= order ifTrue: [
+                self splitInternal: p.
+            ].
         ].
     ]
 
